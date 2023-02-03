@@ -10,8 +10,6 @@ import com.snob.telegrambot.service.UserSessionService;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 
-import java.util.List;
-
 @Component
     public class ChooseCategoryHandler extends UserRequestHandler {
 
@@ -21,7 +19,7 @@ import java.util.List;
     private final KeyboardHelper keyboardHelper;
     private final UserSessionService userSessionService;
 
-    public INeedHelpHandler(TelegramService telegramService, KeyboardHelper keyboardHelper, UserSessionService userSessionService) {
+    public ChooseCategoryHandler(TelegramService telegramService, KeyboardHelper keyboardHelper, UserSessionService userSessionService) {
         this.telegramService = telegramService;
         this.keyboardHelper = keyboardHelper;
         this.userSessionService = userSessionService;
@@ -29,16 +27,16 @@ import java.util.List;
 
     @Override
     public boolean isApplicable(UserRequest request) {
-        return isTextMessage(request.getUpdate(), ADD_TO_LIST);
+        return isTextMessage(request.getUpdate(), ADD_TO_LIST); //!!!!!!!!!
     }
 
     @Override
     public void handle(UserRequest dispatchRequest) {
         ReplyKeyboardMarkup replyKeyboardMarkup = keyboardHelper.buildListMenu();
-        telegramService.sendMessage(dispatchRequest.getChatId(),"Оберіть категорію яку хочете поповнити⤵️", replyKeyboardMarkup);
+        telegramService.sendMessage(dispatchRequest.getChatId(),"Оберіть категорію яку хочете доповнити⤵️", replyKeyboardMarkup);
 
         UserSession userSession = dispatchRequest.getUserSession();
-        userSession.setState(ConversationState.WAITING_FOR_CITY);
+        userSession.setState(ConversationState.WAITING_FOR_CATEGORY);
         userSessionService.saveSession(userSession.getChatId(), userSession);
     }
 
