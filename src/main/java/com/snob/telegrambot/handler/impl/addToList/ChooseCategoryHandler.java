@@ -1,4 +1,4 @@
-package com.snob.telegrambot.handler.impl;
+package com.snob.telegrambot.handler.impl.addToList;
 
 import com.snob.telegrambot.enums.ConversationState;
 import com.snob.telegrambot.handler.UserRequestHandler;
@@ -10,11 +10,10 @@ import com.snob.telegrambot.service.UserSessionService;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 
+import static com.snob.telegrambot.constant.Constant.ADD_TO_LIST;
+
 @Component
     public class ChooseCategoryHandler extends UserRequestHandler {
-
-    public static String ADD_TO_LIST = "Добавити в список";
-
     private final TelegramService telegramService;
     private final KeyboardHelper keyboardHelper;
     private final UserSessionService userSessionService;
@@ -27,7 +26,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 
     @Override
     public boolean isApplicable(UserRequest request) {
-        return isTextMessage(request.getUpdate(), ADD_TO_LIST); //!!!!!!!!!
+        return isTextMessage(request.getUpdate(), ADD_TO_LIST);
     }
 
     @Override

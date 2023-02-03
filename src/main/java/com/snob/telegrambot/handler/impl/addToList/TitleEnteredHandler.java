@@ -1,4 +1,4 @@
-package com.snob.telegrambot.handler.impl;
+package com.snob.telegrambot.handler.impl.addToList;
 
 import com.snob.telegrambot.enums.ConversationState;
 import com.snob.telegrambot.handler.UserRequestHandler;
