@@ -2,6 +2,7 @@ package com.snob.telegrambot.helper;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
@@ -32,8 +33,8 @@ public class KeyboardHelper {
 
     public ReplyKeyboardMarkup buildMainMenu(){
         List<KeyboardButton> buttons = List.of(
-                new KeyboardButton("Добавити в список"),
-                new KeyboardButton("Показати список"));
+                new KeyboardButton("Добавити в список➕"),
+                new KeyboardButton("Показати список\uD83D\uDCCA"));
         KeyboardRow keyboardRow = new KeyboardRow(buttons);
 
         return ReplyKeyboardMarkup.builder()

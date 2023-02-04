@@ -1,5 +1,5 @@
 bot:
-  token: nope
+  token: ${BOT_TOKEN}
   username: list_of_titles_bot
 
 spring:
