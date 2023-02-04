@@ -1,4 +1,4 @@
-package com.snob.telegrambot.handler.impl.addToList;
+package com.snob.telegrambot.handler.impl.selectFromList;
 
 import com.snob.telegrambot.enums.ConversationState;
 import com.snob.telegrambot.handler.UserRequestHandler;
@@ -14,8 +14,11 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 
 import java.util.List;
 
+import static com.snob.telegrambot.constant.Constant.*;
+import static com.snob.telegrambot.constant.Constant.CURRENT_WATCH_LIST;
+
 @Component
-public class TitleEnteredHandler extends UserRequestHandler {
+public class CategoryForSelectEnteredHandler extends UserRequestHandler {
 
     private final TelegramService telegramService;
     private final KeyboardHelper keyboardHelper;
@@ -23,18 +26,18 @@ public class TitleEnteredHandler extends UserRequestHandler {
     private final ListOfTitlesRepository userRepository;
 
 
-    public TitleEnteredHandler(TelegramService telegramService, KeyboardHelper keyboardHelper,
-                               UserSessionService userSessionService, ListOfTitlesRepository userRepository) {
+    public CategoryForSelectEnteredHandler(TelegramService telegramService,
+                                           KeyboardHelper keyboardHelper, UserSessionService userSessionService, ListOfTitlesRepository userRepository) {
         this.telegramService = telegramService;
         this.keyboardHelper = keyboardHelper;
         this.userSessionService = userSessionService;
         this.userRepository = userRepository;
     }
-
     @Override
     public boolean isApplicable(UserRequest request) {
-        return isTextMessage(request.getUpdate())
-                && ConversationState.WAITING_FOR_TEXT.equals(request.getUserSession().getState());
+        return (isTextMessage(request.getUpdate(), WATCHED_LIST) || isTextMessage(request.getUpdate(), WISH_TO_WATCH_LIST)
+                || isTextMessage(request.getUpdate(), FAVORITE_LIST) || isTextMessage(request.getUpdate(), CURRENT_WATCH_LIST))
+                && ConversationState.WAITING_FOR_CATEGORY_IN_SELECT.equals(request.getUserSession().getState());
     }
 
     @Override
@@ -42,33 +45,14 @@ public class TitleEnteredHandler extends UserRequestHandler {
         ReplyKeyboardMarkup replyKeyboardMarkup = keyboardHelper.buildMainMenu();
         UserSession session = dispatchRequest.getUserSession();
 
-        String title = dispatchRequest.getUpdate().getMessage().getText();
-        session.setTitle(title);
+        String category = dispatchRequest.getUpdate().getMessage().getText();
+        session.setCategory(category);
+        telegramService.sendMessage(dispatchRequest.getChatId(), "Ваш список: ",replyKeyboardMarkup);
 
-        telegramService.sendMessage(dispatchRequest.getChatId(),"'"+session.getTitle()+"' додано у список '" +
-                        session.getCategory().toLowerCase() + "'.",
-                replyKeyboardMarkup);
+        List<ListOfTitles> listOfTitles = userRepository.findAllProductsByUserAndCategory(dispatchRequest.getChatId(),category);
+        listOfTitles.forEach(list -> telegramService.sendMessage(dispatchRequest.getChatId(),list.getTitleName()));
 
         session.setState(ConversationState.CONVERSATION_STARTED);
-
-        ListOfTitles listOfTitles = ListOfTitles.builder()
-                .userId(session.getChatId())
-                .titleName(session.getTitle())
-                .titleStatus(session.getCategory())
-                .mark(0)
-                .build();
-
-        List<ListOfTitles> listOfTitlesList = userRepository.findAllProductsByUser(dispatchRequest.getChatId());
-        boolean check = false;
-        for (ListOfTitles ofTitles : listOfTitlesList) {
-            if (title.equals(ofTitles.getTitleName())) {
-                userRepository.updateTitleName(session.getCategory(), dispatchRequest.getChatId(), title);
-                check = true;
-            }
-        }
-        if (!check) {
-            userRepository.save(listOfTitles);
-        }
 
         userSessionService.saveSession(dispatchRequest.getChatId(), session);
     }
