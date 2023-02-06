@@ -1,7 +1,7 @@
 package com.snob.telegrambot;
 
-import com.snob.telegrambot.model.UserRequest;
-import com.snob.telegrambot.model.UserSession;
+import com.snob.telegrambot.model.tools.UserRequest;
+import com.snob.telegrambot.model.tools.UserSession;
 import com.snob.telegrambot.service.UserSessionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

@@ -12,10 +12,10 @@ import java.util.List;
 public interface ListOfTitlesRepository extends JpaRepository<ListOfTitles, Long> {
     //JPQL
     @Query("SELECT p FROM ListOfTitles p WHERE p.userId = ?1 AND p.titleStatus = ?2")
-    List<ListOfTitles> findAllProductsByUserAndCategory(Long id,String titleStatus);
+    List<ListOfTitles> findAllByUserAndCategory(Long id,String titleStatus);
 
     @Query("SELECT p FROM ListOfTitles p WHERE p.userId = ?1")
-    List<ListOfTitles> findAllProductsByUser(Long id);
+    List<ListOfTitles> findAllByUser(Long id);
 
     @Transactional
     @Modifying

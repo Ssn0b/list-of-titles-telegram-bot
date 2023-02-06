@@ -1,7 +1,7 @@
 package com.snob.telegrambot;
 
 import com.snob.telegrambot.handler.UserRequestHandler;
-import com.snob.telegrambot.model.UserRequest;
+import com.snob.telegrambot.model.tools.UserRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;

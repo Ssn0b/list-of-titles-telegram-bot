@@ -1,4 +1,4 @@
-package com.snob.telegrambot.model;
+package com.snob.telegrambot.model.tools;
 
 import lombok.Builder;
 import lombok.Data;

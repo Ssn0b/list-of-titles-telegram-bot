@@ -4,8 +4,8 @@ import com.snob.telegrambot.enums.ConversationState;
 import com.snob.telegrambot.handler.UserRequestHandler;
 import com.snob.telegrambot.helper.KeyboardHelper;
 import com.snob.telegrambot.model.ListOfTitles;
-import com.snob.telegrambot.model.UserRequest;
-import com.snob.telegrambot.model.UserSession;
+import com.snob.telegrambot.model.tools.UserRequest;
+import com.snob.telegrambot.model.tools.UserSession;
 import com.snob.telegrambot.repository.ListOfTitlesRepository;
 import com.snob.telegrambot.service.TelegramService;
 import com.snob.telegrambot.service.UserSessionService;
@@ -58,7 +58,7 @@ public class TitleEnteredHandler extends UserRequestHandler {
                 .mark(0)
                 .build();
 
-        List<ListOfTitles> listOfTitlesList = userRepository.findAllProductsByUser(dispatchRequest.getChatId());
+        List<ListOfTitles> listOfTitlesList = userRepository.findAllByUser(dispatchRequest.getChatId());
         boolean check = false;
         for (ListOfTitles ofTitles : listOfTitlesList) {
             if (title.equals(ofTitles.getTitleName())) {

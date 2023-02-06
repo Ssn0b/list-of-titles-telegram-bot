@@ -1,4 +1,4 @@
-package com.snob.telegrambot.model;
+package com.snob.telegrambot.model.tools;
 
 import com.snob.telegrambot.enums.ConversationState;
 import lombok.Builder;

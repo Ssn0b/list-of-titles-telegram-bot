@@ -1,6 +1,6 @@
 package com.snob.telegrambot.service;
 
-import com.snob.telegrambot.model.UserSession;
+import com.snob.telegrambot.model.tools.UserSession;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;

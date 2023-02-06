@@ -1,6 +1,6 @@
 package com.snob.telegrambot.handler;
 
-import com.snob.telegrambot.model.UserRequest;
+import com.snob.telegrambot.model.tools.UserRequest;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 public abstract class UserRequestHandler {
