@@ -10,6 +10,7 @@ import com.snob.telegrambot.repository.ListOfTitlesRepository;
 import com.snob.telegrambot.service.TelegramService;
 import com.snob.telegrambot.service.UserSessionService;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 
 import java.util.List;
@@ -48,8 +49,9 @@ public class TitleEnteredHandler extends UserRequestHandler {
         telegramService.sendMessage(dispatchRequest.getChatId(),"'"+session.getTitle()+"' додано у список '" +
                         session.getCategory().toLowerCase() + "'.",
                 replyKeyboardMarkup);
-
-        session.setState(ConversationState.CONVERSATION_STARTED);
+        InlineKeyboardMarkup inlineKeyboardMarkup = keyboardHelper.setMark();
+        telegramService.sendMessage(dispatchRequest.getChatId(),"Поставити оцінку",inlineKeyboardMarkup);
+        session.setState(ConversationState.WAITING_FOR_MARK_SET);
 
         ListOfTitles listOfTitles = ListOfTitles.builder()
                 .userId(session.getChatId())

@@ -12,4 +12,6 @@ public class UserSession  {
     private ConversationState state;
     private String category;
     private String title;
+    private int page;
+    private int maxList;
 }

@@ -36,6 +36,25 @@ public class KeyboardHelper {
                 .build();
     }
 
+    public ReplyKeyboardMarkup buildListMenuForAdd() {
+        List<KeyboardButton> buttons1 = List.of(
+                new KeyboardButton("Переглянуте"),
+                new KeyboardButton("Планую дивитись"));
+        List<KeyboardButton> buttons2 = List.of(
+                new KeyboardButton("Дивлюся"),
+                new KeyboardButton("Улюблене"));
+        KeyboardRow row1 = new KeyboardRow(buttons1);
+        KeyboardRow row2 = new KeyboardRow(buttons2);
+        KeyboardRow row3 = new KeyboardRow(List.of(new KeyboardButton(BTN_CANCEL)));
+
+        return ReplyKeyboardMarkup.builder()
+                .keyboard(List.of(row1, row2,row3))
+                .selective(true)
+                .resizeKeyboard(true)
+                .oneTimeKeyboard(false)
+                .build();
+    }
+
     public ReplyKeyboardMarkup buildMainMenu(){
         List<KeyboardButton> buttons = List.of(
                 new KeyboardButton("Добавити в список➕"),
@@ -61,20 +80,68 @@ public class KeyboardHelper {
                 .oneTimeKeyboard(false)
                 .build();
     }
-        public InlineKeyboardMarkup buildOutputList(List<ListOfTitles> listOfTitles) {
+        public InlineKeyboardMarkup buildOutputList(List<ListOfTitles> listOfTitles,int page) {
             InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
             List<List<InlineKeyboardButton>> rows = new ArrayList<>();
-            for (int i = 0; i < listOfTitles.size(); i++) {
+            for (ListOfTitles listOfTitle : listOfTitles) {
                 InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
                 List<InlineKeyboardButton> row = new ArrayList<>();
-                inlineKeyboardButton.setText(listOfTitles.get(i).getTitleName());
-                inlineKeyboardButton.setCallbackData(listOfTitles.get(i).getTitleName());
+                if (listOfTitle.getMark() != 0) {
+                    inlineKeyboardButton.setText(listOfTitle.getTitleName() + " | " + listOfTitle.getMark() + "⭐");
+                } else {
+                    inlineKeyboardButton.setText(listOfTitle.getTitleName());
+                }
+                inlineKeyboardButton.setCallbackData(listOfTitle.getTitleName());
                 row.add(inlineKeyboardButton);
                 rows.add(row);
             }
-
+            List<InlineKeyboardButton> row = new ArrayList<>();
+            InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
+            inlineKeyboardButton.setText("⬅");
+            inlineKeyboardButton.setCallbackData("назад");
+            InlineKeyboardButton inlineKeyboardButton2 = new InlineKeyboardButton();
+            inlineKeyboardButton2.setText(String.valueOf(page+1));
+            inlineKeyboardButton2.setCallbackData("сторінка");
+            InlineKeyboardButton inlineKeyboardButton3 = new InlineKeyboardButton();
+            inlineKeyboardButton3.setText("➡");
+            inlineKeyboardButton3.setCallbackData("вперед");
+            row.add(inlineKeyboardButton);
+            row.add(inlineKeyboardButton2);
+            row.add(inlineKeyboardButton3);
+            rows.add(row);
 
             inlineKeyboardMarkup.setKeyboard(rows);
             return inlineKeyboardMarkup;
+        }
+
+    public InlineKeyboardMarkup setMark() {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> row1 = new ArrayList<>();
+        List<InlineKeyboardButton> row2 = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
+            inlineKeyboardButton.setText(String.valueOf(i+1));
+            inlineKeyboardButton.setCallbackData(String.valueOf(i+1));
+            row1.add(inlineKeyboardButton);
+        }
+        for (int i = 5; i < 10; i++) {
+            InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
+            inlineKeyboardButton.setText(String.valueOf(i+1));
+            inlineKeyboardButton.setCallbackData(String.valueOf(i+1));
+            row2.add(inlineKeyboardButton);
+        }
+        InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
+        inlineKeyboardButton.setText("Пропустити");
+        inlineKeyboardButton.setCallbackData("пропустити");
+        List<InlineKeyboardButton> row3 = new ArrayList<>();
+        row3.add(inlineKeyboardButton);
+
+        rows.add(row1);
+        rows.add(row2);
+        rows.add(row3);
+
+        inlineKeyboardMarkup.setKeyboard(rows);
+        return inlineKeyboardMarkup;
     }
 }

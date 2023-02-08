@@ -21,4 +21,9 @@ public abstract class UserRequestHandler {
     public boolean isTextMessage(Update update,String text){
         return update.hasMessage() && update.getMessage().hasText() && update.getMessage().getText().equals(text);
     }
+
+    public boolean isCallbackQuery(Update update){return update.hasCallbackQuery();}
+    public boolean isCallbackQuery(Update update,String text){return update.hasCallbackQuery() &&
+            update.getCallbackQuery().getData().equals(text);}
+
 }

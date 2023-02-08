@@ -45,6 +45,22 @@ public class User implements Serializable {
         this.lastName = lastName;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
     @Id
     @GeneratedValue
     private Long id;
@@ -52,6 +68,8 @@ public class User implements Serializable {
     private String firstName;
     private String lastName;
     private String userName;
+    private int page;
+
 
     @Tolerate
     public User() {}

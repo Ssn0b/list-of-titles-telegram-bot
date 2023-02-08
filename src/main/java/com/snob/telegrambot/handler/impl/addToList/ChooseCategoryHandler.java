@@ -31,7 +31,7 @@ import static com.snob.telegrambot.constant.Constant.ADD_TO_LIST;
 
     @Override
     public void handle(UserRequest dispatchRequest) {
-        ReplyKeyboardMarkup replyKeyboardMarkup = keyboardHelper.buildListMenu();
+        ReplyKeyboardMarkup replyKeyboardMarkup = keyboardHelper.buildListMenuForAdd();
         telegramService.sendMessage(dispatchRequest.getChatId(),"Оберіть категорію яку хочете доповнити⤵️", replyKeyboardMarkup);
 
         UserSession userSession = dispatchRequest.getUserSession();
